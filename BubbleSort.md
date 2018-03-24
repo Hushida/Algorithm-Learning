@@ -17,7 +17,7 @@
 public void BubbleSort(int[] array, int low, int high) {
     int sortLength = (high - low);
     for(int i = 0; i < sortLength; i++) {
-        for(int j = i; j < sortLength; j++) {
+        for(int j = low; j < high - i; j++) {
             if(array[j] > array[j + 1]) {
                 int temp = array[j];
                 array[j] = array[j + 1];

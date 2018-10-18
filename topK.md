@@ -24,4 +24,43 @@ public int[] getMinKNumbersByHeap(int[] arr, int k) {
   }
   return heapK;
 }
+
+public void  heapCreate(int[] arr, int value, int index) {
+  arr[index] = value;
+  while(index != 0) {
+    parent = (index - 1)/2;
+    if(arr[parent] < arr[index]) { /为了使父节点的值比子节点的值大
+      swap(arr, parent, index);
+      index = parent;
+    } else {
+      break;
+    }
+  }
+}
+
+public void heapify(int arr, int index, int heapSize) {
+  int left = index * 2 + 1;
+  int right = index * 2 + 2;
+  int largest = index;
+  while(left < heapSize) { //首先判断异常，检查左子节点下标是否超出数组范围，然后在循环内判断右子节点下标是否超出数组范围
+    if(arr[left] > arr[largest]) {
+      largest = left;
+    }
+    if(right < heapSize && arr[right] > arr[largest]) {
+      largest = right;
+    }
+    if(arr[largest] > arr[index]) {
+      swap(arr, largest);
+    }
+    index = largest;
+    left = index * 2 + 1;
+    right = index * 2 + 2;
+  }
+}
+
+public void swap(int[] arr, int index1, int index2) {
+  int temp = arr[index1];
+  arr[index1] = arr[index2];
+  arr[index2] = temp;
+}
 ```

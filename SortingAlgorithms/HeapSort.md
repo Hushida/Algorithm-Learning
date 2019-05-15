@@ -28,11 +28,31 @@
     代码实现（java）：
 
     ```
-    public class HeapSort {
-            public satatic int[] heapSort(int[] arr) {
-                    buildHeap(arr);
-                    int 
-            }
-            public static void swap() {}
-    }
+   public class Heap {
+       private[] a;//数组，从下标1开始
+       private int n;//数组中元素的最大个数
+       private int count;//已经存储的数据个数
+       
+       public Head(int capacity) {
+           a = new int[capacity + 1];
+           n = capacity;
+           count = 0;
+       }
+       public static void insert(int data) {
+           if(count >= n) {
+           //堆满了
+           return;
+           }
+           ++count;
+           a[count] = data;
+           int i = count;
+           while(i / 2 > 0 && a[i] > a[i / 2]) {
+               //交换下标元素，然后从根节点往下比较
+               swap(a, i, i / 2);
+               i = i / 2;
+           }
+       }
+       
+       
+   }
     ```

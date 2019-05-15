@@ -26,6 +26,7 @@
     没有元素了，这时候堆排序也就好了。是一个从小到大排列的数组。
 
     代码实现（java）：
+    
 
     ```
    public class Heap {
@@ -33,7 +34,7 @@
        private int n;//数组中元素的最大个数
        private int count;//已经存储的数据个数
        
-       public Head(int capacity) {
+       public Heap(int capacity) {
            a = new int[capacity + 1];
            n = capacity;
            count = 0;
@@ -52,7 +53,45 @@
                i = i / 2;
            }
        }
-       
+       public static void heapify(int[] a, int n, int i) {
+           int maxPosition = i;
+           while(true) {
+               if(i < n && a[i*2] > a[i]) {
+                   maxPosition = i*2;
+               }
+               if(i < n && a[i*2 + 1] > a[i]) {
+                   maxPosition = i*2 + 1;
+               }
+               if(i == maxPosition) {
+                   break;
+               }
+               swap(a, i, maxPosition);
+               i = maxPosition;
+           }
+       }
+       /从下标n/2位置的数据开始到1，建立堆，相当于从上层往下层建立堆。下标n/2+1到n的数据是叶子节点，最后一层的不需要对他们建立堆，直接从倒数第二层开始建立堆。建立堆的时间复杂度是O(n)，每一个节点在建立堆的过程中，需要比较和交换的次数和这个节点的高度成正比。求和之后，时间复杂度是O(n)。
+       public static void buildHeap(int[] a, int n) {
+           for(int i = n/2; i >= 1; i--) {
+               heapify(a, n, i);
+           }
+       }
+       //排序：大顶堆建立完之后，数组中的数据按照大顶堆的性质来组织，堆顶元素之最大的元素，把最大的元素和数组最后一个位置的元素交换。然后把剩下的n-1个元素重新调整堆，再次把堆顶元素和数组倒数第二个元素交换，重复这个过程，最后堆里面只有一个元素，排序就完成了。
+           
+       public static void sort(int[] a, int n) {
+           //数组中的元素从下标1到n
+           buildHeap(a, n);
+           int k = n;
+           while(k > 1) {
+               swap(a, k, 1);
+               --k;
+               heapify(a, k, 1);
+           }
+       }
        
    }
     ```
+    初始化堆的时间复杂度是O(logn)。   
+    更改堆元素之后，调整堆的时候，n-1个元素需要n-1次循环，每次都是从根节点向下查找，时间复杂度是log（n），所以堆排序的时间复杂度是O(nlogn)。   
+    堆排序不是稳定的排序，因为在排序的过程中，会把堆的最后一个节点和堆顶元素互换，这个操作会导致相同元素的前后顺序发生变化。
+    
+    

@@ -96,3 +96,73 @@
     堆排序不是稳定的排序，因为在排序的过程中，会把堆的最后一个节点和堆顶元素互换，这个操作会导致相同元素的前后顺序发生变化。
     
     
+    
+    
+    
+另一种思路（附java代码实现和测试结果）
+堆排序需要两个过程，一是建立堆，另一个是调整堆。  （代码难以理解，左程云书的354页，那个堆排序好理解一些。等待整理）   ：从最后一个右子节点
+
+初始化堆的时间复杂度是O(n)，更改堆元素之后，建立堆，需要循环n-1次，每次是从根节点往下寻找，所以时间复杂度是O(logn)，所以整体的时间复杂度是）O(nlogn)       没有用到辅助空间，堆排序是原地排序，时间复杂度是O(1)  
+
+```
+package com.company;
+import java.util.Arrays;
+public class Sort {
+    public static void main(String[] args) {
+        int[] arr = {12, 11, 10, 2, 4, 6, 7, 1, 3};
+        System.out.println("Before sort" + Arrays.toString(arr));
+        //insertSort(arr);
+        //mergeSort(arr, 0, arr.length - 1);
+        //quickSort(arr, 0, arr.length - 1);
+        heapSort(arr);
+        System.out.println("After sort" + Arrays.toString(arr));
+
+    }
+    
+
+    
+    public static void heapSort(int[] arr) {
+        int n = arr.length;
+        //最后一个有子节点的元素，下标是n/2 - 1.。这些元素都是根节点，有孩子节点，所以heapify的最后一项根节点位置是根据i变化的
+        for(int i = n/2 - 1; i >= 0; i--) {
+            heapify(arr, n, i);
+        }
+        for(int i = n-1; i >= 0; i--) {
+            //大顶堆的0位置元素最大，把最大的放到数组的最后
+            int temp = arr[0];
+            arr[0] = arr[i];
+            arr[i] = temp;
+
+            //调整的堆的大小是不断变化的,堆顶下标始终是0，堆调整的范围在缩小
+            heapify(arr, i, 0);
+        }
+    }
+    public static void heapify(int[] arr, int n, int i) {
+        int largest = i;//把最大值的下标，初始化为i
+        int l = 2*i + 1;
+        int r = 2*i + 2;
+
+        //内部不做循环，外层调用者的来控制调用heapify的次数
+            if(l < n && arr[l] > arr[largest]) {
+                largest = l;
+            }
+            if(r < n && arr[r] > arr[largest]) {
+                largest = r;
+            }
+            if(largest != i) {
+                int temp = arr[i];
+                arr[i] = arr[largest];
+                arr[largest] = temp;
+
+                heapify(arr, n, largest);
+            }
+
+    }
+}
+
+```
+运行结果
+```
+Before sort[12, 11, 10, 2, 4, 6, 7, 1, 3]
+After sort[1, 2, 3, 4, 6, 7, 10, 11, 12]
+```    
